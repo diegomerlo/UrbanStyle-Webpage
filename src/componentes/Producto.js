@@ -6,83 +6,105 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { AddShoppingCart } from '@mui/icons-material';
+import accounting from 'accounting';
+import AddIcon from '@mui/icons-material/Add';  // Icono de '+'
 
-const stock = true;
+const stock = false;
+const rating = 4;
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
-})(({ theme }) => ({
+})(({ theme, expand }) => ({
   marginLeft: 'auto',
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
   transition: theme.transitions.create('transform', {
     duration: theme.transitions.duration.shortest,
   }),
-  variants: [
-    {
-      props: ({ expand }) => !expand,
-      style: {
-        transform: 'rotate(0deg)',
-      },
-    },
-    {
-      props: ({ expand }) => !!expand,
-      style: {
-        transform: 'rotate(180deg)',
-      },
-    },
-  ],
+}));
+
+const ExpandButtonOverlay = styled(IconButton)(({ theme }) => ({
+  position: 'absolute',
+  top: '140px',
+  right: '15px',
+  color: theme.palette.common.white,
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',  // Botón semitransparente sobre la imagen
+  '&:hover': {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+  },
 }));
 
 export default function Producto() {
   const [expanded, setExpanded] = React.useState(false);
+  const [descExpanded, setDescExpanded] = React.useState(false);  // Estado para la descripción
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
+  const handleDescExpandClick = () => {  // Controla la expansión de la descripción
+    setDescExpanded(!descExpanded);
+  };
+
+  const addToBasket = () => {
+    console.log('Producto agregado al carrito');
+  };
+
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, position: 'relative' }}>
       <CardHeader
         action={
-            <Typography
-            //   className={classes.action}
-              variant='h5'
-              color='textSecondary'
-            >
-              {50}
-            </Typography>
-          }
+          <Typography
+            sx={{ marginTop: '1rem' }} // Aplica el estilo action
+            variant='h5'
+            color='textSecondary'
+          >
+            {accounting.formatMoney(15000)}
+          </Typography>
+        }
         title="THYERRY REMERA"
-        subheader={stock ? "Hay Stock" : "No hay Stock"} // expresión ternaria
+        subheader={stock ? "Hay Stock" : "No hay Stock"}
       />
       <CardMedia
         component="img"
-        height=""
+        sx={{ height: "", paddingTop: '0.25%' }} // Aplica el estilo media
         image="https://batuk.com.ar/storage/photos/huoky-model-38.jpg"
         alt="THYERRY REMERA"
       />
-      <CardContent>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the mussels,
-          if you like.
-        </Typography>
-      </CardContent>
+      {/* Botón de expansión sobre la imagen */}
+      <ExpandButtonOverlay
+        expand={descExpanded}
+        onClick={handleDescExpandClick}
+        aria-expanded={descExpanded}
+        aria-label="show description"
+      >
+        <AddIcon />
+      </ExpandButtonOverlay>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+        <IconButton aria-label='Add to Cart' onClick={addToBasket}>
+          <AddShoppingCart fontSize='large' />
         </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
+        {Array(rating)
+          .fill()
+          .map((_, i) => (
+            <p key={i}>&#11088;</p>
+          ))}
+      </CardActions>
+      <Collapse in={descExpanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography variant='body2' color='textSecondary' component='p'>
+            La remera Thyerry es la elección ideal para quienes buscan un estilo sofisticado y una comodidad 
+            sin igual. Fabricada en algodón 100% de alta calidad, esta prenda garantiza un tacto suave y un ajuste 
+            cómodo que se adapta a tu cuerpo. Su diseño de corte clásico y el discreto logo en el pecho 
+            la convierten en una pieza versátil para cualquier ocasión.
+          </Typography>
+        </CardContent>
+      </Collapse>
+      <CardActions disableSpacing>
         <ExpandMore
           expand={expanded}
           onClick={handleExpandClick}
@@ -94,30 +116,21 @@ export default function Producto() {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography sx={{ marginBottom: 2 }}>Method:</Typography>
+          <Typography sx={{ marginBottom: 2 }}>Para mantener la remera Thyerry en óptimas condiciones, sigue estas recomendaciones:</Typography>
           <Typography sx={{ marginBottom: 2 }}>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and set
-            aside for 10 minutes.
+            - Lavar a máquina en frío con colores similares.<br />
+            - No usar blanqueador.<br />
+            - Secar a baja temperatura o secar al aire para preservar la forma y el color.<br />
+            - Planchar a baja temperatura si es necesario, evitando el logo.
+          </Typography> 
+          <Typography sx={{ marginBottom: 2 }}>
+            Tabla de Talles:
           </Typography>
           <Typography sx={{ marginBottom: 2 }}>
-            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over
-            medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring
-            occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a
-            large plate and set aside, leaving chicken and chorizo in the pan. Add
-            pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook,
-            stirring often until thickened and fragrant, about 10 minutes. Add
-            saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
-          </Typography>
-          <Typography sx={{ marginBottom: 2 }}>
-            Add rice and stir very gently to distribute. Top with artichokes and
-            peppers, and cook without stirring, until most of the liquid is absorbed,
-            15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and
-            mussels, tucking them down into the rice, and cook again without
-            stirring, until mussels have opened and rice is just tender, 5 to 7
-            minutes more. (Discard any mussels that don&apos;t open.)
-          </Typography>
-          <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then serve.
+            - S: Pecho 46 cm, Largo 68 cm <br />
+            - M: Pecho 49 cm, Largo 70 cm <br />
+            - L: Pecho 52 cm, Largo 72 cm <br />
+            - XL: Pecho 55 cm, Largo 74 cm
           </Typography>
         </CardContent>
       </Collapse>

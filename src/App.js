@@ -1,11 +1,16 @@
-import Producto  from './componentes/Producto';
+import Producto from './componentes/Producto';
 import './App.css';
+import Navbar from './componentes/Navbar';
 
 function App() {
   return (
     <div className="App">
-      <h1>Esto es el titulo</h1>
-      <Producto/>
+      <nav>
+        <Navbar/>
+      </nav>
+      <div className='productos'>
+        <Producto/>
+      </div>
     </div>
   );
 }
