@@ -9,8 +9,7 @@ function App() {
         <Navbar/>
       </nav>
       <div className='productos'>
-                                            nose poner comentarios lpm//<CheckOutPage/>
-
+      <Productos/>
       </div>
     </div>
   );
