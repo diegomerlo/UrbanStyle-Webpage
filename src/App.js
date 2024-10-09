@@ -1,6 +1,6 @@
-import Producto from './componentes/Producto';
-import './App.css';
 import Navbar from './componentes/Navbar';
+import CheckOutPage from './componentes/CheckOutPage';
+import Productos from './componentes/Productos';  // Mantén esta importación como componente
 
 function App() {
   return (
@@ -9,7 +9,8 @@ function App() {
         <Navbar/>
       </nav>
       <div className='productos'>
-        <Producto/>
+                                            nose poner comentarios lpm//<CheckOutPage/>
+
       </div>
     </div>
   );

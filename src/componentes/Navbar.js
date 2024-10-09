@@ -13,6 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from "../assets/urban-style.png";
 import perfilUsuario from "../assets/modelo.png"
+import { ShoppingCart } from '@mui/icons-material';
+import { Badge } from '@mui/material';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -41,10 +43,15 @@ function ResponsiveAppBar() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
+
+          
             variant="h6"
             noWrap
             component="a"
             href="#app-bar-with-responsive-menu"
+
+           
+
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -55,9 +62,16 @@ function ResponsiveAppBar() {
               textDecoration: 'none',
               img: { marginRight: '10px', height: '75px' },  // Corresponding to "image" style
             }}
+            
+
+
+            
+
           >
             <img src={logo} alt="Urban Style" />
           </Typography>
+
+         
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -68,8 +82,16 @@ function ResponsiveAppBar() {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
+
+              
+
               <MenuIcon />
+              
+
             </IconButton>
+
+
+          
             <Menu
               id="menu-appbar"
               anchorEl={anchorElNav}
@@ -123,11 +145,19 @@ function ResponsiveAppBar() {
             ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
+
+          
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src={perfilUsuario} />
               </IconButton>
             </Tooltip>
+            <IconButton aria-label="Show cart items" color="inherit">
+              <Badge badgeContent={0} color ="secondary">
+                <ShoppingCart fontSize = "large" color = "primary"/>
+              </Badge>
+            </IconButton>
+
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"

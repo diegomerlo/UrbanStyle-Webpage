@@ -38,7 +38,7 @@ const ExpandButtonOverlay = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-export default function Producto() {
+export default function Producto({producto : {id , name, productType, image,price, rating, description}}) {
   const [expanded, setExpanded] = React.useState(false);
   const [descExpanded, setDescExpanded] = React.useState(false);  // Estado para la descripción
 
@@ -63,17 +63,17 @@ export default function Producto() {
             variant='h5'
             color='textSecondary'
           >
-            {accounting.formatMoney(15000)}
+            {accounting.formatMoney(price)}
           </Typography>
         }
-        title="THYERRY REMERA"
+        title={name}
         subheader={stock ? "Hay Stock" : "No hay Stock"}
       />
       <CardMedia
         component="img"
         sx={{ height: "", paddingTop: '0.25%' }} // Aplica el estilo media
-        image="https://batuk.com.ar/storage/photos/huoky-model-38.jpg"
-        alt="THYERRY REMERA"
+        image={image}
+        alt={name}
       />
       {/* Botón de expansión sobre la imagen */}
       <ExpandButtonOverlay
@@ -94,16 +94,11 @@ export default function Producto() {
             <p key={i}>&#11088;</p>
           ))}
       </CardActions>
-      <Collapse in={descExpanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography variant='body2' color='textSecondary' component='p'>
-            La remera Thyerry es la elección ideal para quienes buscan un estilo sofisticado y una comodidad 
-            sin igual. Fabricada en algodón 100% de alta calidad, esta prenda garantiza un tacto suave y un ajuste 
-            cómodo que se adapta a tu cuerpo. Su diseño de corte clásico y el discreto logo en el pecho 
-            la convierten en una pieza versátil para cualquier ocasión.
+            {productType}
           </Typography>
         </CardContent>
-      </Collapse>
       <CardActions disableSpacing>
         <ExpandMore
           expand={expanded}
@@ -116,22 +111,11 @@ export default function Producto() {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography sx={{ marginBottom: 2 }}>Para mantener la remera Thyerry en óptimas condiciones, sigue estas recomendaciones:</Typography>
+          
           <Typography sx={{ marginBottom: 2 }}>
-            - Lavar a máquina en frío con colores similares.<br />
-            - No usar blanqueador.<br />
-            - Secar a baja temperatura o secar al aire para preservar la forma y el color.<br />
-            - Planchar a baja temperatura si es necesario, evitando el logo.
+            {description}
           </Typography> 
-          <Typography sx={{ marginBottom: 2 }}>
-            Tabla de Talles:
-          </Typography>
-          <Typography sx={{ marginBottom: 2 }}>
-            - S: Pecho 46 cm, Largo 68 cm <br />
-            - M: Pecho 49 cm, Largo 70 cm <br />
-            - L: Pecho 52 cm, Largo 72 cm <br />
-            - XL: Pecho 55 cm, Largo 74 cm
-          </Typography>
+         
         </CardContent>
       </Collapse>
     </Card>
