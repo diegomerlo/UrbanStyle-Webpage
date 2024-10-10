@@ -6,6 +6,7 @@ import productos from '../producto-data';  // Importamos los datos de los produc
 import Producto from './Producto';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import Total from './Total';
 
 
 
@@ -16,8 +17,7 @@ const CheckOutPage = () => {
       <React.Fragment>
         {productos?.map((item) => (
           <Grid key={item.id} item xs={12} sm={8} md={6} lg={4}> {/* Coloca la clave aquí */}
-            <Producto producto={item}/>  {/* Pasas el producto a Producto */}
-            <CheckoutCard producto={item} />  {/* Pasas el producto a CheckoutCard */}
+            <CheckoutCard key={item.id} producto={item}/>  {/* Pasas el producto a Producto */}
           </Grid>
         ))}
       </React.Fragment>
@@ -29,7 +29,7 @@ const CheckOutPage = () => {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Typography align="center" gutterBottom variant="h4">
-            Shopping Cart
+            Carro
           </Typography>
         </Grid>
         <Grid item xs={12} sm={8} md={9} container spacing={2}>
@@ -37,7 +37,7 @@ const CheckOutPage = () => {
         </Grid>
         <Grid item xs={12} sm={4} md={3}>
           <Typography align="center" gutterBottom variant="h4">
-            Total
+            <Total/>
           </Typography>
         </Grid>
       </Grid>

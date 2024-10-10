@@ -4,12 +4,12 @@ import Productos from './componentes/Productos';  // Mantén esta importación c
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{ paddingTop: '70px' }}>
       <nav>
         <Navbar/>
       </nav>
       <div className='productos'>
-      <Productos/>
+      <CheckOutPage/>
       </div>
     </div>
   );
