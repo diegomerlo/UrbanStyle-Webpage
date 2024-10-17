@@ -12,6 +12,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddShoppingCart } from '@mui/icons-material';
 import accounting from 'accounting';
 import AddIcon from '@mui/icons-material/Add';  // Icono de '+'
+import { type } from '@testing-library/user-event/dist/type';
+import {useStateValue} from '../StateProvider'
+import { actionTypes } from '../reducer';
 
 const stock = false;
 const rating = 4;
@@ -40,6 +43,7 @@ const ExpandButtonOverlay = styled(IconButton)(({ theme }) => ({
 
 export default function Producto({producto : {id , name, productType, image,price, rating, description}}) {
   const [expanded, setExpanded] = React.useState(false);
+  const [{basket},dispatch] = useStateValue();
   const [descExpanded, setDescExpanded] = React.useState(false);  // Estado para la descripción
 
   const handleExpandClick = () => {
@@ -52,6 +56,19 @@ export default function Producto({producto : {id , name, productType, image,pric
 
   const addToBasket = () => {
     console.log('Producto agregado al carrito');
+    dispatch({
+      type: actionTypes.ADD_TO_BASKET,
+      item: {
+        id,
+        name,
+        productType,
+        image,
+        price,
+        rating,
+        description
+      }
+
+    })
   };
 
   return (

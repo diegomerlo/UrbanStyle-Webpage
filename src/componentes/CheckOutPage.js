@@ -2,20 +2,18 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CheckoutCard from "./CheckOutCard";  // Asegúrate de tener este componente implementado correctamente
-import productos from '../producto-data';  // Importamos los datos de los productos
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
 import Total from './Total';
-
+import {useStateValue} from '../StateProvider'
 
 
 const CheckOutPage = () => {
+  const [{basket},dispatch] = useStateValue();
 
   function FormRow() {
     return (
       <React.Fragment>
-        {productos?.map((item) => (
-          <Grid key={item.id} item xs={12} sm={8} md={6} lg={4}> {/* Coloca la clave aquí */}
+        {basket?.map((item) => (
+          <Grid item xs={12} sm={8} md={6} lg={4}> {/* Coloca la clave aquí */}
             <CheckoutCard key={item.id} producto={item}/>  {/* Pasas el producto a Producto */}
           </Grid>
         ))}

@@ -8,10 +8,23 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import DeleteIcon from '@mui/icons-material/Delete';
 import accounting from 'accounting';
+import {useStateValue} from '../StateProvider'
+import { actionTypes } from '../reducer';
 
 const stock = false;
 
 export default function CheckoutCard({producto : {id , name, productType, image,price, rating, description}}) {
+
+  const [{basket},dispatch] = useStateValue();
+  const [expanded, setExpanded] = React.useState(false);
+
+  const removeItem = () => dispatch({
+    type: actionTypes.REMOVE_ITEM,
+    id: id,
+
+    
+
+  })
 
   return (
     <Card sx={{ maxWidth: 345, position: 'relative' }}>
@@ -43,7 +56,7 @@ export default function CheckoutCard({producto : {id , name, productType, image,
           ))}
         </div>
         <IconButton>
-        <DeleteIcon fontSize='large'/>
+        <DeleteIcon fontSize='large' onClick={removeItem}/>
         </IconButton>
       </CardActions>
     </Card>

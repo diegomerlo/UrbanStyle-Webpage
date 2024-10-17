@@ -16,6 +16,7 @@ import perfilUsuario from "../assets/modelo.png"
 import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { Link } from 'react-router-dom';
+import {useStateValue} from '../StateProvider'
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -38,6 +39,8 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+  const [{basket},dispatch] = useStateValue();
 
   return (
     <AppBar position="fixed" sx={{ backgroundColor: 'black', boxShadow: 'none' }}>
@@ -158,7 +161,7 @@ function ResponsiveAppBar() {
             </Tooltip>
             <Link to="/checkout-page">
             <IconButton aria-label="Show cart items" color="inherit">
-              <Badge badgeContent={0} color ="secondary">
+              <Badge badgeContent={basket?.length} color ="secondary">
                 <ShoppingCart fontSize = "large" color = "primary"/>
               </Badge>
             </IconButton>
