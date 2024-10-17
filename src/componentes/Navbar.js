@@ -15,6 +15,7 @@ import logo from "../assets/urban-style.png";
 import perfilUsuario from "../assets/modelo.png"
 import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -68,12 +69,15 @@ function ResponsiveAppBar() {
             
 
           >
-            <img src={logo} alt="Urban Style" />
+            <Link to="/">
+              <img src={logo} alt="Urban Style" />
+            </Link>
           </Typography>
 
          
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -89,7 +93,7 @@ function ResponsiveAppBar() {
               
 
             </IconButton>
-
+            
 
           
             <Menu
@@ -152,11 +156,13 @@ function ResponsiveAppBar() {
                 <Avatar alt="Remy Sharp" src={perfilUsuario} />
               </IconButton>
             </Tooltip>
+            <Link to="/checkout-page">
             <IconButton aria-label="Show cart items" color="inherit">
               <Badge badgeContent={0} color ="secondary">
                 <ShoppingCart fontSize = "large" color = "primary"/>
               </Badge>
             </IconButton>
+            </Link>
 
             <Menu
               sx={{ mt: '45px' }}

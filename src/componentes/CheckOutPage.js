@@ -3,7 +3,6 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import CheckoutCard from "./CheckOutCard";  // Asegúrate de tener este componente implementado correctamente
 import productos from '../producto-data';  // Importamos los datos de los productos
-import Producto from './Producto';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Total from './Total';
