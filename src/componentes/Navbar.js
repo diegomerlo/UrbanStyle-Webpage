@@ -65,19 +65,13 @@ function ResponsiveAppBar() {
               color: 'inherit',
               textDecoration: 'none',
               img: { marginRight: '10px', height: '75px' },  // Corresponding to "image" style
-            }}
-            
-
-
-            
+            }}   
 
           >
             <Link to="/">
               <img src={logo} alt="Urban Style" />
             </Link>
-          </Typography>
-
-         
+          </Typography>  
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
 
@@ -90,14 +84,9 @@ function ResponsiveAppBar() {
               color="inherit"
             >
 
-              
-
               <MenuIcon />
               
-
             </IconButton>
-            
-
           
             <Menu
               id="menu-appbar"
@@ -140,6 +129,8 @@ function ResponsiveAppBar() {
           >
             {/* LOGO */}
           </Typography>
+
+          
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
@@ -154,11 +145,15 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 0 }}>
 
           
-            <Tooltip title="Open settings">
+            
+            {/*  <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src={perfilUsuario} />
               </IconButton>
-            </Tooltip>
+            </Tooltip>  esto es lo que tendria que aparecer cuando tenemos el usuario registrado y en la pagina*/}
+
+
+
             <Link to="/checkout-page">
             <IconButton aria-label="Show cart items" color="inherit">
               <Badge badgeContent={basket?.length} color ="secondary">
@@ -166,8 +161,17 @@ function ResponsiveAppBar() {
               </Badge>
             </IconButton>
             </Link>
+              
+              <Link to ="/SignIn">
+              <Button variant='outlined'>
+                      <strong>Sign In</strong>
+              </Button>
+              </Link>
 
-            <Menu
+
+
+
+{/*    <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -188,7 +192,8 @@ function ResponsiveAppBar() {
                   <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
                 </MenuItem>
               ))}
-            </Menu>
+            </Menu>    esto es lo que tendria que aparecer cuando tenemos el usuario registrado y en la pagina*/}
+            
           </Box>
         </Toolbar>
       </Container>
