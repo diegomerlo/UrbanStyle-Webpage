@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,7 +12,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
-import { Link as RouterLink } from 'react-router-dom'; // Importa Link de react-router-dom
+import { Link as RouterLink, useNavigate } from 'react-router-dom'; // Cambia useHistory por useNavigate
+import { auth } from '../firebase';
 
 function Copyright() {
   return (
@@ -30,6 +31,20 @@ function Copyright() {
 const theme = createTheme();
 
 export default function SignUp() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // Usamos useNavigate en lugar de useHistory
+
+  const signup = (e) => {
+    e.preventDefault();
+    auth.createUserWithEmailAndPassword(email, password).then((auth) => {
+      console.log(auth);
+      if (auth) {
+        navigate("/"); // Reemplaza history.push con navigate
+      }
+    }).catch(err => alert(err.message));
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -73,6 +88,8 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
                   required
                   fullWidth
                   id="email"
@@ -83,6 +100,8 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
                   required
                   fullWidth
                   name="password"
@@ -104,17 +123,15 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              onClick={signup}
             >
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-
-              <Link component={RouterLink} to="/SignIn" variant="body2">
-                   Already have an account? Sign in
+                <Link component={RouterLink} to="/SignIn" variant="body2">
+                  Already have an account? Sign in
                 </Link>
-
-
               </Grid>
             </Grid>
           </Box>

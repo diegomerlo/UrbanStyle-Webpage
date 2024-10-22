@@ -17,9 +17,15 @@ import { ShoppingCart } from '@mui/icons-material';
 import { Badge } from '@mui/material';
 import { Link } from 'react-router-dom';
 import {useStateValue} from '../StateProvider'
+import { actionTypes } from '../reducer';
+import { Link as RouterLink, useNavigate } from 'react-router-dom'; // Cambia useHistory por useNavigate
+import { auth } from '../firebase';
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+
+
 
 function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -40,8 +46,21 @@ function ResponsiveAppBar() {
     setAnchorElUser(null);
   };
 
-  const [{basket},dispatch] = useStateValue();
+  const [{basket, user},dispatch] = useStateValue();
 
+  const navigate = useNavigate(); // Usamos useNavigate en lugar de useHistory
+
+  const handleAuth = () =>{
+    if(user){
+      auth.signOut();
+      dispatch({
+        type: actionTypes.EMPTY_BASKET,
+        basket: [],
+      })
+       navigate("/")
+    }
+  }
+  
   return (
     <AppBar position="fixed" sx={{ backgroundColor: 'black', boxShadow: 'none' }}>
       <Container maxWidth="xl">
@@ -83,9 +102,7 @@ function ResponsiveAppBar() {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-
               <MenuIcon />
-              
             </IconButton>
           
             <Menu
@@ -144,7 +161,9 @@ function ResponsiveAppBar() {
           </Box>
           <Box sx={{ flexGrow: 0 }}>
 
-          
+          <Typography variant='h6' color='primary' component='p'>
+           Hello {user ? user.email: "Guest"}
+          </Typography>
             
             {/*  <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -163,8 +182,8 @@ function ResponsiveAppBar() {
             </Link>
               
               <Link to ="/SignIn">
-              <Button variant='outlined'>
-                      <strong>Sign In</strong>
+              <Button variant='outlined' onClick={handleAuth}>
+                      <strong>{user ? "Sign Out" : "Sign In"}</strong>
               </Button>
               </Link>
 

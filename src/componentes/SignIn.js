@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; // Corrige esta línea
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,11 +12,23 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Link as RouterLink } from 'react-router-dom'; // Importa Link de react-router-dom
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { auth } from '../firebase';
 
 const theme = createTheme();
 
 export default function SignIn() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  
+  const signin = (e) => {
+    e.preventDefault();
+    auth.signInWithEmailAndPassword(email, password)
+      .then((auth) => navigate("/"))
+      .catch(err => alert(err.message));
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -37,6 +49,8 @@ export default function SignIn() {
           </Typography>
           <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
+              value={email}
+              onChange={e => setEmail(e.target.value)}
               variant="outlined"
               margin="normal"
               required
@@ -48,6 +62,8 @@ export default function SignIn() {
               autoFocus
             />
             <TextField
+              value={password}
+              onChange={e => setPassword(e.target.value)}
               variant="outlined"
               margin="normal"
               required
@@ -68,6 +84,7 @@ export default function SignIn() {
               variant="contained"
               color="primary"
               sx={{ mt: 3, mb: 2 }}
+              onClick={signin}
             >
               Sign In
             </Button>
