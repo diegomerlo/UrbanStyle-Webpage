@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Corrige esta línea
+import React, { useState } from 'react'; 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth'; // Asegúrate de importar esto
 
 const theme = createTheme();
 
@@ -22,11 +23,14 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   
-  const signin = (e) => {
+  const signin = async (e) => {
     e.preventDefault();
-    auth.signInWithEmailAndPassword(email, password)
-      .then((auth) => navigate("/"))
-      .catch(err => alert(err.message));
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/"); // Redirigir después de iniciar sesión
+    } catch (err) {
+      alert(err.message); // Maneja el error
+    }
   };
 
   return (

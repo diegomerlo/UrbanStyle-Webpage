@@ -14,6 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import { Link as RouterLink, useNavigate } from 'react-router-dom'; // Cambia useHistory por useNavigate
 import { auth } from '../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth'; // Asegúrate de importar esto
 
 function Copyright() {
   return (
@@ -33,16 +34,19 @@ const theme = createTheme();
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(""); // Estado para manejar errores
   const navigate = useNavigate(); // Usamos useNavigate en lugar de useHistory
 
-  const signup = (e) => {
+  const signup = async (e) => {
     e.preventDefault();
-    auth.createUserWithEmailAndPassword(email, password).then((auth) => {
-      console.log(auth);
-      if (auth) {
-        navigate("/"); // Reemplaza history.push con navigate
-      }
-    }).catch(err => alert(err.message));
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(userCredential);
+      navigate("/"); // Reemplaza history.push con navigate
+    } catch (err) {
+      setError(err.message); // Maneja el error
+      alert(err.message);
+    }
   };
 
   return (
@@ -135,6 +139,7 @@ export default function SignUp() {
               </Grid>
             </Grid>
           </Box>
+          {error && <Typography color="error">{error}</Typography>} {/* Muestra el error si existe */}
         </Box>
         <Box mt={5}>
           <Copyright />
