@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
 import { actionTypes } from './reducer';
+import Index from './componentes/indexComponents';
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
@@ -31,15 +32,16 @@ function App() {
 
   return (
     <Router>
-      <div className="App" style={{ paddingTop: '70px' }}>
+      <div className="App" style={{  }}>
         <Navbar />
         <Routes>
           <Route path='/SignIn' element={<SignIn />} />
           <Route path='/SignUp' element={<SignUp />} />
           <Route path='/checkout-page' element={<CheckOutPage />} />
           <Route path='/checkout' element={<CheckOut/>} />
+          <Route path='/inicio' element={<Index/>}/>
 
-          <Route path='/' element={<Productos />} />
+          <Route path='/productos' element={<Productos />} />
         </Routes>
         <Footer /> {/* Agrega el Footer aquí */}
       </div>

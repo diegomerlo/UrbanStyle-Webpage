@@ -87,7 +87,7 @@ function ResponsiveAppBar() {
             }}   
 
           >
-            <Link to="/">
+            <Link to="/inicio">
               <img src={logo} alt="Urban Style" />
             </Link>
           </Typography>  
