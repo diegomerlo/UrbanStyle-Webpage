@@ -21,7 +21,7 @@ import { actionTypes } from '../reducer';
 import { Link as RouterLink, useNavigate } from 'react-router-dom'; // Cambia useHistory por useNavigate
 import { auth } from '../firebase';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+const pages = ['Productos', 'Precios', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
@@ -150,6 +150,7 @@ function ResponsiveAppBar() {
           
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
+              <Link key={page} to={`/${page.toLowerCase()}`} style={{ textDecoration: 'none' }}>
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
@@ -157,6 +158,7 @@ function ResponsiveAppBar() {
               >
                 {page}
               </Button>
+              </Link>
             ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>

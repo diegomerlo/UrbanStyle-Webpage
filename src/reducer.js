@@ -34,17 +34,17 @@ const reducer = (state, action)=>{
               };
               case "SET_USER":
                 return{
-                    state,
+                    ...state,
                     user:action.user
                 }
                 case "EMPTY_BASKET":
                     return{
-                        state,
-                        basket: action.basket
+                        ...state,
+                        basket: []
                     }
                 case "SET_SHIPPINGDATA":
                     return{
-                        state,
+                        ...state,
                         shippingData: action.shippingData
                     }
             default: return state;

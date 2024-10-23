@@ -13,7 +13,7 @@ const productos = [
     {
         id: 2,
         name: "Pantalon",
-        productType: "jean",
+        productType: "JEANS",
         price: 70,
         rating: 5,
         image: "https://acdn.mitiendanube.com/stores/001/343/531/products/dsc01818-8b2f5cc4ff22111f5017107635556075-640-0.jpg",
