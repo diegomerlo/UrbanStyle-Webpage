@@ -42,7 +42,7 @@ const CheckOutForm = ({ backStep, nextStep }) => {
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardElement)
-    })
+    });
 
     if (!error) {
 
@@ -54,14 +54,18 @@ const CheckOutForm = ({ backStep, nextStep }) => {
         });
         
         dispatch({
-          type: actionTypes.SET_PAYMENT_MESSAGE,
+          type: 'SET_PAYMENT_MESSAGE',
           paymentMessage: data.message
         })
-        
+
         elements.getElement(CardElement).clear();
         nextStep();
       } catch (error) {
         console.log(error);
+        dispatch({
+          type: 'SET_PAYMENT_MESSAGE',
+          paymentMessage: "Error en el pago" // Mensaje de error
+        });
         nextStep();
       }
 

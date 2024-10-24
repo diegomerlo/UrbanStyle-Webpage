@@ -20,11 +20,12 @@ app.post("/api/checkout", async (req, res) => {
             amount,
             currency: "ARS",
             description: "Basket de productos",
+            payment_method:id,
             confirm: true
         })
 
         console.log(payment)
-        return res.status(2000).json({message: "Pago exitoso"});
+        return res.status(200).json({message: "Pago exitoso"});
 
     }catch(error){
         return res.json({message: error.raw.message})

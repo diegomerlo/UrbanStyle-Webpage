@@ -50,8 +50,9 @@ const reducer = (state, action)=>{
                         shippingData: action.shippingData
                     }
                 case "SET_PAYMENT_MESSAGE":
+                    console.log("Action payload:", action.paymentMessage);
                     return{
-                        state,
+                        ...state,
                         paymentMessage: action.paymentMessage,
                     };
             default: return state;

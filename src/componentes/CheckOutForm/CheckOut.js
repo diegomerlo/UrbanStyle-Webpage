@@ -33,14 +33,14 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 const Checkout = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const [{paymentMessage}, dispatch] = useStateValue();
+  const [{ paymentMessage }, dispatch] = useStateValue();
   const steps = ["Shipping address", "Payment details"];
 
   const nextStep = () => setActiveStep((preActivestep) => preActivestep + 1);
   const backStep = () => setActiveStep((preActivestep) => preActivestep - 1);
 
 
-  const Form = () => activeStep === 0 ? <AddresForm nextStep={nextStep}/> : <PaymentForm backStep={backStep} nextStep={nextStep}/>
+  const Form = () => activeStep === 0 ? <AddresForm nextStep={nextStep} /> : <PaymentForm backStep={backStep} nextStep={nextStep} />
 
 
   return (
@@ -57,8 +57,11 @@ const Checkout = () => {
           ))}
         </Stepper>
         {
-          activeStep === steps.length ? (<Confirmation message={paymentMessage}/>) : (<Form  step={activeStep}/>)
-
+          activeStep === steps.length ? (
+            <Confirmation message={paymentMessage} /> // Asegúrate de que `message` sea utilizado en Confirmation
+          ) : (
+            <Form step={activeStep} />
+          )
         }
 
       </StyledPaper>
