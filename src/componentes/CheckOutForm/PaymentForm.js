@@ -6,6 +6,7 @@ import { Button, Divider, Typography } from '@mui/material'
 import { getBasketTotal } from '../../reducer'
 import { useStateValue } from '../../StateProvider'
 import accounting from 'accounting'
+import axios from 'axios'
 
 
 const stripePromise = loadStripe("pk_test_51QDEbRJrT6UijVHwfbEd3jTLyBC3fzaJi5KGmE2egF8YFddEDCWGglAHkXRWUA6BC2iBjol0tBb9cMcja4OWhAvE00h5nzk27K")
@@ -32,15 +33,41 @@ const CARD_ELEMENT_OPTIONS = {
 };
 
 const CheckOutForm = ({ backStep, nexStep }) => {
+  const [{ basket }, dispatch] = useStateValue();
+  const stripe = useStripe();
+  const elements = useElements();
 
-  const[{basket},dispatch] = useStateValue();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: "card",
+      card: elements.getElement(CardElement)
+    })
+
+    if (!error) {
+
+      try {
+        const { id } = paymentMethod;
+        const { data } = await axios.post("http://localhost:3001/api/checkout", {
+          id,
+          amount: getBasketTotal(basket) * 100,
+        })
+        
+        console.log(data);
+
+      } catch (error) {
+        console.log(error)
+      }
+
+    }
+  }
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <CardElement options={CARD_ELEMENT_OPTIONS} />
-      <div style={{display: "flex", justifyContent: "space-between", marginTop: "1rem"}}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginTop: "1rem" }}>
         <Button variant='outlined' onClick={backStep}>Atrás</Button>
-        <Button disabled={true} type='submit' variant='contained' color='primary'>{`Pagar ${accounting.formatMoney(getBasketTotal(basket),"$")}`}</Button>
+        <Button disabled={false} type='submit' variant='contained' color='primary'>{`Pagar ${accounting.formatMoney(getBasketTotal(basket), "$")}`}</Button>
       </div>
     </form>
   )
