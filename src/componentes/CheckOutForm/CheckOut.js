@@ -5,6 +5,8 @@ import { Step, StepLabel, Stepper, Typography } from '@mui/material';
 import { useState } from "react";
 import AddresForm from "./AddressForm"
 import PaymentForm from "./PaymentForm"
+import Confirmation from './Confirmation';
+import { useStateValue } from '../../StateProvider';
 
 // Estilos usando el sistema styled de MUI
 const Layout = styled('main')(({ theme }) => ({
@@ -31,13 +33,14 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 const Checkout = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const [{paymentMessage}, dispatch] = useStateValue();
   const steps = ["Shipping address", "Payment details"];
 
   const nextStep = () => setActiveStep((preActivestep) => preActivestep + 1);
   const backStep = () => setActiveStep((preActivestep) => preActivestep - 1);
 
 
-  const Form = () => activeStep === 0 ? <AddresForm nextStep={nextStep}/> : <PaymentForm/>
+  const Form = () => activeStep === 0 ? <AddresForm nextStep={nextStep}/> : <PaymentForm backStep={backStep} nextStep={nextStep}/>
 
 
   return (
@@ -53,7 +56,11 @@ const Checkout = () => {
             </Step>
           ))}
         </Stepper>
-        <Form/>
+        {
+          activeStep === steps.length ? (<Confirmation message={paymentMessage}/>) : (<Form  step={activeStep}/>)
+
+        }
+
       </StyledPaper>
     </Layout>
   );

@@ -3,7 +3,7 @@ import Review from './Review'
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js'
 import { Button, Divider, Typography } from '@mui/material'
-import { getBasketTotal } from '../../reducer'
+import { actionTypes, getBasketTotal } from '../../reducer'
 import { useStateValue } from '../../StateProvider'
 import accounting from 'accounting'
 import axios from 'axios'
@@ -32,7 +32,7 @@ const CARD_ELEMENT_OPTIONS = {
   },
 };
 
-const CheckOutForm = ({ backStep, nexStep }) => {
+const CheckOutForm = ({ backStep, nextStep }) => {
   const [{ basket }, dispatch] = useStateValue();
   const stripe = useStripe();
   const elements = useElements();
@@ -46,17 +46,23 @@ const CheckOutForm = ({ backStep, nexStep }) => {
 
     if (!error) {
 
+      const { id } = paymentMethod;
       try {
-        const { id } = paymentMethod;
         const { data } = await axios.post("http://localhost:3001/api/checkout", {
           id,
           amount: getBasketTotal(basket) * 100,
+        });
+        
+        dispatch({
+          type: actionTypes.SET_PAYMENT_MESSAGE,
+          paymentMessage: data.message
         })
         
-        console.log(data);
-
+        elements.getElement(CardElement).clear();
+        nextStep();
       } catch (error) {
-        console.log(error)
+        console.log(error);
+        nextStep();
       }
 
     }
@@ -73,7 +79,7 @@ const CheckOutForm = ({ backStep, nexStep }) => {
   )
 }
 
-const PaymentForm = ({ backStep, nexStep }) => {
+const PaymentForm = ({ backStep, nextStep }) => {
   return (
     <>
       <Review />
@@ -82,7 +88,7 @@ const PaymentForm = ({ backStep, nexStep }) => {
         Método de Pago
       </Typography>
       <Elements stripe={stripePromise}>
-        <CheckOutForm backStep={backStep} nexStep={nexStep} />
+        <CheckOutForm backStep={backStep} nextStep={nextStep} />
       </Elements>
     </>
   )

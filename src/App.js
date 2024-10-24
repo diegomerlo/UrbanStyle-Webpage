@@ -40,7 +40,7 @@ function App() {
           <Route path='/checkout-page' element={<CheckOutPage />} />
           <Route path='/checkout' element={<CheckOut/>} />
           <Route path='/inicio' element={<Index/>}/>
-
+          <Route path='/' element={<Index/>}/>
           <Route path='/productos' element={<Productos />} />
         </Routes>
         <Footer /> {/* Agrega el Footer aquí */}

@@ -6,8 +6,8 @@ function Index() {
     return (
         <div className="container">
             <header className="header">
-                <h1>NOS LLAMAN LA REVOLUCION</h1>
-                <p>Usa la nueva moda y conquista la ciudad</p>
+                {/* <h1>NOS LLAMAN LA REVOLUCION</h1> */}
+                {/* <p>Usa la nueva moda y conquista la ciudad</p> */}
             </header>
 
             <main className="main-content">
