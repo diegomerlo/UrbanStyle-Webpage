@@ -15,6 +15,8 @@ import { useStateValue } from './StateProvider';
 import { actionTypes } from './reducer';
 import Index from './componentes/indexComponents';
 
+import AdminApp from './admin/AadminApp'; 
+
 function App() {
   const [{ user }, dispatch] = useStateValue();
 
@@ -42,6 +44,7 @@ function App() {
           <Route path='/inicio' element={<Index/>}/>
           <Route path='/' element={<Index/>}/>
           <Route path='/productos' element={<Productos />} />
+          <Route path='/admin' element={<AdminApp/>} />
         </Routes>
         <Footer /> {/* Agrega el Footer aquí */}
       </div>
