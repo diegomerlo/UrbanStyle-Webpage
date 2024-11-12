@@ -1,28 +1,26 @@
+// App.js
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './componentes/Navbar';
-import CheckOutPage from './componentes/CheckOutPage';
-import CheckoutCard from './componentes/CheckOutCard';
-import Productos from './componentes/Productos'; 
+import Footer from './componentes/Footer';
 import SignIn from "./componentes/SignIn";
 import SignUp from "./componentes/SignUp";
-import Footer from './componentes/Footer'; // O el componente correcto que necesitas
-// import Footer from './CheckOutForm/CheckOut'; // Eliminar esta línea si no es necesaria
-import CheckOut from './componentes/CheckOutForm/CheckOut'; // O el componente correcto que necesitas
-
+import CheckOutPage from './componentes/CheckOutPage';
+import CheckOut from './componentes/CheckOutForm/CheckOut';
+import Productos from './componentes/Productos'; 
+import Index from './componentes/indexComponents';
+import AadminApp from './admin/AadminApp';
+import Home from './admin/Home';
+import UserList from './admin/UserList';
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
 import { actionTypes } from './reducer';
-import Index from './componentes/indexComponents';
-
-import AdminApp from './admin/AadminApp'; 
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
 
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
-      console.log(authUser);
       if (authUser) {
         dispatch({
           type: actionTypes.SET_USER,
@@ -34,21 +32,27 @@ function App() {
 
   return (
     <Router>
-      <div className="App" style={{  }}>
+      <div className="App">
         <Navbar />
         <Routes>
           <Route path='/SignIn' element={<SignIn />} />
           <Route path='/SignUp' element={<SignUp />} />
           <Route path='/checkout-page' element={<CheckOutPage />} />
-          <Route path='/checkout' element={<CheckOut/>} />
-          <Route path='/inicio' element={<Index/>}/>
-          <Route path='/' element={<Index/>}/>
+          <Route path='/checkout' element={<CheckOut />} />
+          <Route path='/inicio' element={<Index />} />
+          <Route path='/' element={<Index />} />
           <Route path='/productos' element={<Productos />} />
-          <Route path='/admin' element={<AdminApp/>} />
+
+          {/* Rutas para el panel de administración */}
+          <Route path='/admin' element={<AadminApp />}>
+            <Route index element={<Home />} /> {/* Ruta por defecto del panel */}
+            <Route path='customers' element={<UserList />} /> {/* Ruta para la lista de usuarios */}
+          </Route>
         </Routes>
-        <Footer /> {/* Agrega el Footer aquí */}
+        <Footer />
       </div>
     </Router>
   );
 }
+
 export default App;

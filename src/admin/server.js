@@ -1,3 +1,4 @@
+// admin/server.js
 const express = require('express');
 const admin = require('firebase-admin');
 
@@ -11,6 +12,7 @@ const cors = require('cors');
 app.use(cors());
 const port = 5000;
 
+// Ruta para obtener el conteo de usuarios
 app.get('/api/user-count', async (req, res) => {
   try {
     let count = 0;
@@ -27,6 +29,33 @@ app.get('/api/user-count', async (req, res) => {
   } catch (error) {
     console.error('Error al obtener la cantidad de usuarios:', error);
     res.status(500).send('Error al obtener la cantidad de usuarios');
+  }
+});
+
+// Ruta para obtener la lista de usuarios
+app.get('/api/users', async (req, res) => {
+  try {
+    let usersList = [];
+    let nextPageToken;
+
+    // Iteramos sobre los usuarios de Firebase Authentication
+    do {
+      const listUsersResult = await admin.auth().listUsers(1000, nextPageToken);
+      usersList = [...usersList, ...listUsersResult.users];  // Agrega los usuarios a la lista
+      nextPageToken = listUsersResult.pageToken;
+    } while (nextPageToken);
+
+    // Filtra solo los datos que necesitas, como email y uid
+    const users = usersList.map(user => ({
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName || 'Sin nombre'
+    }));
+
+    res.json({ users }); // Devuelve la lista de usuarios
+  } catch (error) {
+    console.error('Error al obtener los usuarios:', error);
+    res.status(500).send('Error al obtener los usuarios');
   }
 });
 
