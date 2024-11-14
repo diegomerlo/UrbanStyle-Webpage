@@ -12,12 +12,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AddShoppingCart } from '@mui/icons-material';
 import accounting from 'accounting';
 import AddIcon from '@mui/icons-material/Add';  // Icono de '+'
-import { type } from '@testing-library/user-event/dist/type';
-import {useStateValue} from '../StateProvider'
+import { useStateValue } from '../StateProvider';
 import { actionTypes } from '../reducer';
-
-const stock = false;
-const rating = 4;
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -41,9 +37,9 @@ const ExpandButtonOverlay = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-export default function Producto({producto : {id , name, productType, image,price, rating, description}}) {
+export default function Producto({ producto: { id, nombre, tipo, imagenUrl, precio, calificacion, descripcion, stock } }) {
   const [expanded, setExpanded] = React.useState(false);
-  const [{basket},dispatch] = useStateValue();
+  const [{ basket }, dispatch] = useStateValue();
   const [descExpanded, setDescExpanded] = React.useState(false);  // Estado para la descripción
 
   const handleExpandClick = () => {
@@ -60,37 +56,33 @@ export default function Producto({producto : {id , name, productType, image,pric
       type: actionTypes.ADD_TO_BASKET,
       item: {
         id,
-        name,
-        productType,
-        image,
-        price,
-        rating,
-        description
-      }
-
-    })
+        nombre,
+        tipo,
+        imagenUrl,
+        precio,
+        calificacion,
+        descripcion,
+        stock,
+      },
+    });
   };
 
   return (
     <Card sx={{ maxWidth: 345, position: 'relative' }}>
       <CardHeader
         action={
-          <Typography
-            sx={{ marginTop: '1rem' }} // Aplica el estilo action
-            variant='h5'
-            color='textSecondary'
-          >
-            {accounting.formatMoney(price)}
+          <Typography sx={{ marginTop: '1rem' }} variant='h5' color='textSecondary'>
+            {accounting.formatMoney(precio)}
           </Typography>
         }
-        title={name}
+        title={nombre}
         subheader={stock ? "Hay Stock" : "No hay Stock"}
       />
       <CardMedia
         component="img"
         sx={{ height: "", paddingTop: '0.25%' }} // Aplica el estilo media
-        image={image}
-        alt={name}
+        image={imagenUrl}
+        alt={nombre}
       />
       {/* Botón de expansión sobre la imagen */}
       <ExpandButtonOverlay
@@ -105,17 +97,17 @@ export default function Producto({producto : {id , name, productType, image,pric
         <IconButton aria-label='Add to Cart' onClick={addToBasket}>
           <AddShoppingCart fontSize='large' />
         </IconButton>
-        {Array(rating)
+        {Array(calificacion)
           .fill()
           .map((_, i) => (
             <p key={i}>&#11088;</p>
           ))}
       </CardActions>
-        <CardContent>
-          <Typography variant='body2' color='textSecondary' component='p'>
-            {productType}
-          </Typography>
-        </CardContent>
+      <CardContent>
+        <Typography variant='body2' color='textSecondary' component='p'>
+          {tipo}
+        </Typography>
+      </CardContent>
       <CardActions disableSpacing>
         <ExpandMore
           expand={expanded}
@@ -128,11 +120,9 @@ export default function Producto({producto : {id , name, productType, image,pric
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          
           <Typography sx={{ marginBottom: 2 }}>
-            {description}
-          </Typography> 
-         
+            {descripcion}
+          </Typography>
         </CardContent>
       </Collapse>
     </Card>

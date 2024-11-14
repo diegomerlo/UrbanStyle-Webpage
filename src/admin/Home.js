@@ -1,24 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill, BsFillBellFill } from 'react-icons/bs';
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { db } from '../firebase';
+import { collection, getDocs } from 'firebase/firestore';
 
 function Home() {
     const [userCount, setUserCount] = useState(null); // Estado para almacenar la cantidad de usuarios
+    const [productCount, setProductCount] = useState(0); // Estado para cantidad de productos
+    const [categoryCount, setCategoryCount] = useState(0); // Estado para cantidad de categorías
 
     // Efecto para obtener la cantidad de usuarios
     useEffect(() => {
         const fetchUserCount = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/user-count'); // Llama a tu API backend
+                const response = await fetch('http://localhost:5000/api/user-count');
                 const data = await response.json();
-                setUserCount(data.count); // Actualiza el estado con el número de usuarios
+                setUserCount(data.count);
             } catch (error) {
                 console.error('Error al obtener la cantidad de usuarios:', error);
             }
         };
 
         fetchUserCount();
-    }, []); // Se ejecuta solo una vez cuando el componente se monta
+    }, []);
+
+    // Efecto para obtener la cantidad de productos y categorías
+    useEffect(() => {
+        const fetchProductsData = async () => {
+            try {
+                const snapshot = await getDocs(collection(db, 'productos'));
+                const products = snapshot.docs.map(doc => doc.data());
+                
+                // Cuenta el número total de productos
+                setProductCount(products.length);
+
+                // Cuenta el número único de categorías
+                const uniqueCategories = new Set(products.map(product => product.tipo));
+                setCategoryCount(uniqueCategories.size);
+            } catch (error) {
+                console.error('Error al obtener los productos:', error);
+            }
+        };
+
+        fetchProductsData();
+    }, []);
 
     const data = [
         { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
@@ -42,29 +67,29 @@ function Home() {
                         <h3>PRODUCTS</h3>
                         <BsFillArchiveFill className='card_icon' />
                     </div>
-                    <h1>300</h1>
+                    <h1>{productCount !== null ? productCount : 'Cargando...'}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
                         <h3>CATEGORIES</h3>
                         <BsFillGrid3X3GapFill className='card_icon' />
                     </div>
-                    <h1>12</h1>
+                    <h1>{categoryCount !== null ? categoryCount : 'Cargando...'}</h1>
                 </div>
                 <div className='card'>
                     <div className='card-inner'>
                         <h3>CUSTOMERS</h3>
                         <BsPeopleFill className='card_icon' />
                     </div>
-                    <h1>{userCount !== null ? userCount : 'Cargando...'}</h1> {/* Muestra la cantidad de usuarios o 'Cargando...' */}
+                    <h1>{userCount !== null ? userCount : 'Cargando...'}</h1>
                 </div>
-                <div className='card'>
+                {/* <div className='card'>
                     <div className='card-inner'>
                         <h3>ALERTS</h3>
                         <BsFillBellFill className='card_icon' />
                     </div>
                     <h1>42</h1>
-                </div>
+                </div> */}
             </div>
 
             <div className='charts'>

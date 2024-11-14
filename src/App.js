@@ -1,4 +1,3 @@
-// App.js
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './componentes/Navbar';
 import Footer from './componentes/Footer';
@@ -15,6 +14,7 @@ import { useEffect } from 'react';
 import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
 import { actionTypes } from './reducer';
+import ProductPanel from './admin/ProductPanel';
 
 function App() {
   const [{ user }, dispatch] = useStateValue();
@@ -32,23 +32,30 @@ function App() {
 
   return (
     <Router>
-      <div className="App">
+      <div className="App" style={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh'
+      }}>
         <Navbar />
-        <Routes>
-          <Route path='/SignIn' element={<SignIn />} />
-          <Route path='/SignUp' element={<SignUp />} />
-          <Route path='/checkout-page' element={<CheckOutPage />} />
-          <Route path='/checkout' element={<CheckOut />} />
-          <Route path='/inicio' element={<Index />} />
-          <Route path='/' element={<Index />} />
-          <Route path='/productos' element={<Productos />} />
+        <div className="content">
+          <Routes>
+            <Route path='/SignIn' element={<SignIn />} />
+            <Route path='/SignUp' element={<SignUp />} />
+            <Route path='/checkout-page' element={<CheckOutPage />} />
+            <Route path='/checkout' element={<CheckOut />} />
+            <Route path='/inicio' element={<Index />} />
+            <Route path='/' element={<Index />} />
+            <Route path='/productos' element={<Productos />} />
 
-          {/* Rutas para el panel de administración */}
-          <Route path='/admin' element={<AadminApp />}>
-            <Route index element={<Home />} /> {/* Ruta por defecto del panel */}
-            <Route path='customers' element={<UserList />} /> {/* Ruta para la lista de usuarios */}
-          </Route>
-        </Routes>
+            {/* Rutas para el panel de administración */}
+            <Route path='/admin' element={<AadminApp />}>
+              <Route index element={<Home />} /> {/* Ruta por defecto del panel */}
+              <Route path='customers' element={<UserList />} /> {/* Ruta para la lista de usuarios */}
+              <Route path='productos' element={<ProductPanel />} /> {/* Ruta para la lista de usuarios */}
+            </Route>
+          </Routes>
+        </div>
         <Footer />
       </div>
     </Router>

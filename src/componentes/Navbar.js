@@ -21,7 +21,7 @@ import { actionTypes } from '../reducer';
 import { Link as RouterLink, useNavigate } from 'react-router-dom'; // Cambia useHistory por useNavigate
 import { auth } from '../firebase';
 
-const pages = ['Productos', 'Precios', 'Blog'];
+const pages = ['Productos'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 
@@ -166,15 +166,6 @@ function ResponsiveAppBar() {
           <Typography variant='h6' color='primary' component='p'>
            Hello {user ? user.email: "Guest"}
           </Typography>
-            
-            {/*  <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={perfilUsuario} />
-              </IconButton>
-            </Tooltip>  esto es lo que tendria que aparecer cuando tenemos el usuario registrado y en la pagina*/}
-
-
-
             <Link to="/checkout-page">
             <IconButton aria-label="Show cart items" color="inherit">
               <Badge badgeContent={basket?.length} color ="secondary">
@@ -187,34 +178,7 @@ function ResponsiveAppBar() {
               <Button variant='outlined' onClick={handleAuth}>
                       <strong>{user ? "Sign Out" : "Sign In"}</strong>
               </Button>
-              </Link>
-
-
-
-
-{/*    <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>    esto es lo que tendria que aparecer cuando tenemos el usuario registrado y en la pagina*/}
-            
+              </Link>            
           </Box>
         </Toolbar>
       </Container>

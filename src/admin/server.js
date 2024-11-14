@@ -4,7 +4,7 @@ const admin = require('firebase-admin');
 
 // Inicializa el Admin SDK
 admin.initializeApp({
-  credential: admin.credential.cert('./urbanstyleweb-773d0-firebase-adminsdk-3tcit-b6a6e6a981.json'),
+  credential: admin.credential.cert('./urbanstyleweb-773d0-firebase-adminsdk-3tcit-c47364cfa8.json'),
 });
 
 const app = express();

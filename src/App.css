@@ -2,3 +2,22 @@
     padding-top: 100px;
     margin-left: 2%;
 }
+
+/* Asegura que el HTML y el body ocupen toda la altura */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .App {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  /* Hace que el contenido principal ocupe el espacio restante entre el Navbar y el Footer */
+  .content {
+    flex: 1;
+  }  
